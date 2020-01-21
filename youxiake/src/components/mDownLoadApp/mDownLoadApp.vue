@@ -50,7 +50,7 @@ export default {
     .mDownLoadApp__close {
       .w(13);
       .h(13);
-      color: red;
+      color: #fff;
       opacity: 0.8;
       font-size: 15px;
       text-align: center;

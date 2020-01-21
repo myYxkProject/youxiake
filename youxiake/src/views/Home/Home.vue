@@ -1,17 +1,18 @@
 <template>
   <div class="mNewIndex">
-    首页
     <MBottomNav></MBottomNav>
-
+    <MDownLoadApp></MDownLoadApp>
+    <MIndexBanner></MIndexBanner>
   </div>
 </template>
 
 <script>
-import MBottomNav from 'components/mBottomNav/mBottomNav';
+import MBottomNav from "components/mBottomNav/mBottomNav";
+import MDownLoadApp from "components/mDownLoadApp/mDownLoadApp"; 
+import MIndexBanner from "components/mIndexBanner/mIndexBanner";
 
 export default {
-  name: 'mNewIndex',
-  components:{MBottomNav}
-  
-}
+  name: "mNewIndex",
+  components: { MBottomNav, MDownLoadApp ,MIndexBanner}
+};
 </script>

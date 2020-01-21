@@ -4,18 +4,6 @@
       <i class="iconfont" @click="change(index)">{{item.pic}}</i>
       {{item.name}}
     </router-link>
-    <!-- <a href="#/">
-        <i class="iconfont">&#xe9ce;</i>
-        首页
-        </a>
-        <a href="#/order">
-        <i class="iconfont">&#xe643;</i>
-        订单
-        </a>
-        <a href="#/userCenter">
-        <i class="iconfont">&#xe677;</i>
-        个人中心
-    </a>-->
   </div>
 </template>
 

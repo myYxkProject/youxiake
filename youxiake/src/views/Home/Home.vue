@@ -3,6 +3,8 @@
     <MBottomNav></MBottomNav>
     <MDownLoadApp></MDownLoadApp>
     <MIndexBanner :slides='banners'></MIndexBanner>
+    <MIndexMainNav></MIndexMainNav>
+    <MIndexSecondNav></MIndexSecondNav>
   </div>
 </template>
 
@@ -11,10 +13,12 @@ import MBottomNav from "components/mBottomNav/mBottomNav";
 import MDownLoadApp from "components/mDownLoadApp/mDownLoadApp"; 
 import MIndexBanner from "components/mIndexBanner/mIndexBanner";
 import {getBanner} from 'api/home.js';
+import MIndexMainNav from 'components/mIndexMainNav/mIndexMainNav';
+import MIndexSecondNav from 'components/mIndexSecondNav/mIndexSecondNav';
 
 export default {
   name: "mNewIndex",
-  components: { MBottomNav, MDownLoadApp ,MIndexBanner},
+  components: { MBottomNav, MDownLoadApp ,MIndexBanner,MIndexMainNav,MIndexSecondNav},
   data(){
     return{
       banners:[]
@@ -28,3 +32,10 @@ export default {
   }
 };
 </script>
+
+<style lang="less" scoped>
+@import '~style/index.less';
+.mNewIndex{
+  .w(375);
+}
+</style>

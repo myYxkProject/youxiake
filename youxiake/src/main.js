@@ -5,6 +5,8 @@ import store from './store'
 
 // iconfont插件样式
 import './assets/iconfont.css'
+import './assets/iconfont.js';
+
 // 轮播图插件
 // import VueAwesomeSwiper from 'vue-awesome-swiper'
 // 轮播图插件样式

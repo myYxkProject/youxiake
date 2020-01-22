@@ -189,15 +189,11 @@ export default {
       }
     }
   }
-  //   .mIndexBannerSwiper {
-  //     .swiper-container {
-  //       width: 375px;
-  //       height: 300px;
-  //     }
-  //   }
   .swiper-container {
     position: relative;
-    height: 150px;
+    .w(350);
+    .h(150);
+    border-radius: 3%;
     // background-color: antiquewhite;
     .swiper-wrapper {
       .swiper-slide {

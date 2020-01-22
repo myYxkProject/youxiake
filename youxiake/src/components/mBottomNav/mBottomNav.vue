@@ -1,6 +1,6 @@
 <template>
   <div class="mBottomNav">
-    <router-link v-for="(item,index) in tab" :key="index" :to="item.path" active-class >
+    <router-link v-for="(item,index) in tab" :key="index" :to="item.path" active-class>
       <i class="iconfont" @click="change(index)">{{item.pic}}</i>
       {{item.name}}
     </router-link>

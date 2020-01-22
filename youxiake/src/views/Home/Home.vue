@@ -5,6 +5,7 @@
     <MIndexBanner :slides='banners'></MIndexBanner>
     <MIndexMainNav></MIndexMainNav>
     <MIndexSecondNav></MIndexSecondNav>
+    <MIndexWeekAndLocal></MIndexWeekAndLocal>
   </div>
 </template>
 
@@ -15,10 +16,11 @@ import MIndexBanner from "components/mIndexBanner/mIndexBanner";
 import {getBanner} from 'api/home.js';
 import MIndexMainNav from 'components/mIndexMainNav/mIndexMainNav';
 import MIndexSecondNav from 'components/mIndexSecondNav/mIndexSecondNav';
+import MIndexWeekAndLocal from 'components/mIndexWeekAndLocal/mIndexWeekAndLocal';
 
 export default {
   name: "mNewIndex",
-  components: { MBottomNav, MDownLoadApp ,MIndexBanner,MIndexMainNav,MIndexSecondNav},
+  components: { MBottomNav, MDownLoadApp ,MIndexBanner,MIndexMainNav,MIndexSecondNav,MIndexWeekAndLocal},
   data(){
     return{
       banners:[]

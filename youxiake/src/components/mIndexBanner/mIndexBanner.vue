@@ -80,11 +80,11 @@ export default {
       var mySwiper = new Swiper(".swiper-container", {
         // direction: "vertical", // 垂直切换选项
         notNextTick: false,
-        autoplay: 1000,
+        autoplay: 3000,
         loop: true, // 循环模式选项
         pagination: ".swiper-pagination"
       });
-      console.log(this.slides);
+      // console.log(this.slides);
     }
   },
   watch: {

@@ -5,7 +5,7 @@
     <MIndexBanner :slides='banners'></MIndexBanner>
     <MIndexMainNav></MIndexMainNav>
     <MIndexSecondNav></MIndexSecondNav>
-    <MIndexWeekAndLocal></MIndexWeekAndLocal>
+    <MIndexWeekAndLocal :wl='weekLocal'></MIndexWeekAndLocal>
   </div>
 </template>
 
@@ -13,7 +13,7 @@
 import MBottomNav from "components/mBottomNav/mBottomNav";
 import MDownLoadApp from "components/mDownLoadApp/mDownLoadApp"; 
 import MIndexBanner from "components/mIndexBanner/mIndexBanner";
-import {getBanner} from 'api/home.js';
+import {getHomeData} from 'api/home.js';
 import MIndexMainNav from 'components/mIndexMainNav/mIndexMainNav';
 import MIndexSecondNav from 'components/mIndexSecondNav/mIndexSecondNav';
 import MIndexWeekAndLocal from 'components/mIndexWeekAndLocal/mIndexWeekAndLocal';
@@ -23,13 +23,16 @@ export default {
   components: { MBottomNav, MDownLoadApp ,MIndexBanner,MIndexMainNav,MIndexSecondNav,MIndexWeekAndLocal},
   data(){
     return{
-      banners:[]
+      banners:[],
+      weekLocal:{}
     }
   },
   created(){
-    getBanner().then((res)=>{
+    getHomeData().then((res)=>{
       this.banners = res.data.data.flashImageList
+      this.weekLocal = res.data.data.aroundLump
       console.log(this.banners)
+      console.log(this.weekLocal)
     })
   }
 };

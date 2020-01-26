@@ -221,18 +221,7 @@ export default {
           }
         }
       );
-      res.data.data.aroundLump.weekList[3].productList.forEach(
-        (item, index) => {
-          // console.log(item, index);
-          if (index < 6) {
-            this.productList10.push(item);
-          } else if (index < 12) {
-            this.productList11.push(item);
-          } else {
-            this.productList12.push(item);
-          }
-        }
-      );
+     
     });
     this.productList13 = this.productList;
     this.productList14 = this.productList2;
@@ -286,7 +275,7 @@ export default {
     background-color: #fff;
     border-top-right-radius: 0.16rem;
     // background-color: red;
-    height: 650px;
+    // height: 650px;
     width: 100%;
     .week__nav {
       .h(47.5);

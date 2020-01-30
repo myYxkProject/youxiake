@@ -19,6 +19,13 @@ module.exports = {
                 pathRewrite: {
                     '^/banner': ''
                 }
+            },
+            '/flowrecommend':{
+                target:'https://m.youxiake.com',
+                changeOrigin:true,
+                pathRewrite:{
+                    '^/flowrecommend':''
+                }
             }
         }
     },

@@ -18,3 +18,16 @@ export const getHomeData = () => {
     })
 }
 
+// 获取首页瀑布流数据
+export const getFlowRecommend = () => {
+    return new Promise((resolve, reject) => {
+        let url = 'flowrecommend/api/index/flowrecommend?sitecode=5&city_id=5&type=1&page=1'
+       axios.get(url)
+       .then((data)=>{
+           resolve(data)
+       })
+       .catch((err)=>{
+           reject(err)
+       })
+    })
+}

@@ -5,26 +5,24 @@
       <p class="head__desc">游侠客独一无二的旅行体验</p>
     </div>
     <div>
-      <div class="mIndexMinority__list">
-        <!-- <a href class="item" style="background-image:url('https://qimg4.youxiake.com/upload/202001/21/51741579612192.jpg?imageslim')">
+      <!-- <div class="mIndexMinority__list"> -->
+      <!-- <a href class="item" style="background-image:url('https://qimg4.youxiake.com/upload/202001/21/51741579612192.jpg?imageslim')">
           <p class="title">2月好货榜</p>
           <p class="desc">年后去哪儿玩</p>
-        </a>-->
-        <div class="swiper-container">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide" v-for="(item,index) in minorityData" :key="index">
-              <a
-                href
-                class="item"
-                style="background-image:url('https://qimg4.youxiake.com/upload/202001/21/51741579612192.jpg?imageslim')"
-              >
-                <p class="title">2月好货榜</p>
-                <p class="desc">年后去哪儿玩</p>
-              </a>
-            </div>
+      </a>-->
+      <div class="swiper-container2 mcontainer">
+        <div class="swiper-wrapper mwrapper">
+          <div class="swiper-slide mslide" v-for="(item,index) in minorityData" :key="index">
+            <a href class="mitem" 
+            :style="{backgroundImage:'url('+item.image+')'}"
+            >
+              <p class="title">{{item.title}}</p>
+              <p class="desc">{{item.subTitle}}</p>
+            </a>
           </div>
         </div>
       </div>
+      <!-- </div> -->
     </div>
   </div>
 </template>
@@ -46,8 +44,8 @@ export default {
     };
   },
   methods: {
-    initBanner() {
-      let mySwiper = new Swiper(".swiper-container", {
+    initBanner2() {
+      let mySwiper2 = new Swiper(".swiper-container2", {
         slidesPerView: 3,
         slidesPerGroup: 3
       });
@@ -59,7 +57,7 @@ export default {
         console.log(this.$props.m);
         this.minorityData = this.$props.m.data;
         console.log(this.minorityData);
-        this.initBanner();
+        this.initBanner2();
       });
     }
   }
@@ -102,19 +100,24 @@ export default {
       overflow: hidden;
     }
   }
-  .mIndexMinority__list {
-    .w(791);
-    display: flex;
-    overflow: hidden;
-    .swiper-container {
-      position: relative;
-      width: 100%;
-      .h(152);
-      .swiper-slide {
-        .item {
+  // .mIndexMinority__list {
+  //   .w(791);
+  //   display: flex;
+  //   overflow: hidden;
+  .mcontainer {
+    // position: relative;
+    // width: 100%;
+    .h(152);
+    .mwrapper {
+      .mslide {
+        // float: left;
+        // position: absolute;
+        .w(120);
+        .mright(5);
+        .mitem {
           position: absolute;
           .l(5);
-          .mright(3);
+          // .mright(3);
           .w(125);
           .h(152);
           background: #fff9db no-repeat 50% / cover;
@@ -137,6 +140,7 @@ export default {
         }
       }
     }
+    // }
   }
 }
 </style>

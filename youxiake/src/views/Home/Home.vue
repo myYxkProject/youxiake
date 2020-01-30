@@ -6,12 +6,9 @@
     <MIndexMainNav></MIndexMainNav>
     <MIndexSecondNav></MIndexSecondNav>
     <MIndexWeekAndLocal :wl="weekLocal"></MIndexWeekAndLocal>
-    <MIndexMuster
-    :aB='activityBanner'
-    :sP='saleProductList'
-    :nP='newProduct'
-    :kP='kingProduct'></MIndexMuster>
-    <MIndexMinority :m='minority'></MIndexMinority>
+    <MIndexMuster :aB="activityBanner" :sP="saleProductList" :nP="newProduct" :kP="kingProduct"></MIndexMuster>
+    <MIndexMinority :m="minority"></MIndexMinority>
+    <MIndexWaterfall :fT="flowTabList" :fR='flowRecommend'></MIndexWaterfall>
   </div>
 </template>
 
@@ -19,12 +16,13 @@
 import MBottomNav from "components/mBottomNav/mBottomNav";
 import MDownLoadApp from "components/mDownLoadApp/mDownLoadApp";
 import MIndexBanner from "components/mIndexBanner/mIndexBanner";
-import { getHomeData } from "api/home.js";
+import { getHomeData, getFlowRecommend } from "api/home.js";
 import MIndexMainNav from "components/mIndexMainNav/mIndexMainNav";
 import MIndexSecondNav from "components/mIndexSecondNav/mIndexSecondNav";
 import MIndexWeekAndLocal from "components/mIndexWeekAndLocal/mIndexWeekAndLocal";
 import MIndexMuster from "components/mIndexMuster/mIndexMuster";
 import MIndexMinority from "components/mIndexMinority/mIndexMinority";
+import MIndexWaterfall from "components/mIndex__Waterfall/mIndex__Waterfall";
 
 export default {
   name: "mNewIndex",
@@ -36,7 +34,8 @@ export default {
     MIndexSecondNav,
     MIndexWeekAndLocal,
     MIndexMuster,
-    MIndexMinority
+    MIndexMinority,
+    MIndexWaterfall
   },
   data() {
     return {
@@ -46,7 +45,9 @@ export default {
       saleProductList: [],
       newProduct: {},
       kingProduct: {},
-      minority:{}
+      minority: {},
+      flowTabList: [],
+      flowRecommend:[]
     };
   },
   created() {
@@ -58,12 +59,19 @@ export default {
       this.saleProductList = res.data.data.saleProductList;
       this.activityBanner = res.data.data.activityBanner;
       this.minority = res.data.data.minority;
+      this.flowTabList = res.data.data.flowTabList;
+      // console.log(this.flowTabList);
       // console.log(this.banners);
       // console.log(this.weekLocal);
-      console.log(this.kingProduct);
-      console.log(this.newProduct);
-      console.log(this.saleProductList);
-      console.log(this.activityBanner);
+      // console.log(this.kingProduct);
+      // console.log(this.newProduct);
+      // console.log(this.saleProductList);
+      // console.log(this.activityBanner);
+    });
+    getFlowRecommend().then(res => {
+      // console.log(res)
+      this.flowRecommend = res.data.data.list
+      console.log(this.flowRecommend)
     });
   }
 };

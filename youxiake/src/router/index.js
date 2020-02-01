@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from 'views/Home/Home.vue'
 import Order from 'views/Order/Order.vue'
 import UserCenter from 'views/UserCenter/UserCenter.vue'
+import Login from 'views/Login/Login.vue';
 
 Vue.use(VueRouter)
 
@@ -21,6 +22,11 @@ const routes = [
     path:'/userCenter',
     name:'userCenter',
     component:UserCenter
+  },
+  {
+    path:'/login',
+    name:'login',
+    component:Login
   }
 ]
 

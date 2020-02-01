@@ -3,7 +3,7 @@
     <div class="mUserCenterHeader">
       <div class="header__box">
         <div class="header__avatar"></div>
-        <div class="header__login">
+        <div class="header__login" @click="login">
           去登录/注册
           <span>新用户注册送388元大礼包</span>
         </div>
@@ -205,6 +205,9 @@ export default {
     },
     cityHide() {
       this.show = false;
+    },
+    login(){
+        this.$router.push('/login')
     }
   }
 };

@@ -13,9 +13,7 @@
       <div class="swiper-container2 mcontainer">
         <div class="swiper-wrapper mwrapper">
           <div class="swiper-slide mslide" v-for="(item,index) in minorityData" :key="index">
-            <a href class="mitem" 
-            :style="{backgroundImage:'url('+item.image+')'}"
-            >
+            <a href class="mitem" :style="{backgroundImage:'url('+item.image+')'}">
               <p class="title">{{item.title}}</p>
               <p class="desc">{{item.subTitle}}</p>
             </a>
@@ -54,12 +52,16 @@ export default {
   watch: {
     m(newVal, oldValue) {
       this.$nextTick(() => {
-        console.log(this.$props.m);
+        // console.log(this.$props.m);
         this.minorityData = this.$props.m.data;
-        console.log(this.minorityData);
-        this.initBanner2();
+        // console.log(this.minorityData);
+        // this.initBanner2();
       });
     }
+  },
+  updated() {
+    // this.minorityData = this.$props.m.data;
+    this.initBanner2();
   }
 };
 </script>

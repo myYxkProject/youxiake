@@ -1,6 +1,6 @@
 <template>
   <div class="mIndex__Waterfall">
-    <div class="mIndex__Waterfall__nav">
+    <div class="mIndex__Waterfall__nav" :class="wTop ? 'wTop':''">
       <div class="mNewScrollX">
         <ul class="nav__list">
           <li
@@ -121,22 +121,24 @@ export default {
       flowRecommendtopr: [],
       flowRecommendleft: [],
       flowRecommendright: [],
-      currentSort: 0
+      currentSort: 0,
+      wTop: false,
+      type:1
     };
   },
   watch: {
     fT(newVal, oldVal) {
       this.$nextTick(() => {
-        // console.log(this.fT);
+        console.log(this.fT);
         this.flowTabList = this.fT;
-        // console.log(this.flowTabList);
+        console.log(this.flowTabList);
       });
     },
     fR(newVal, oldVal) {
       this.$nextTick(() => {
         // console.log(this.fR);
         this.flowRecommend = this.fR;
-        console.log(this.flowRecommend);
+        // console.log(this.flowRecommend);
         this.flowRecommendtopl = this.flowRecommend[0].dataDetail;
         // console.log(this.flowRecommendtopl);
         this.flowRecommendtopr = this.flowRecommend[1].dataDetail;
@@ -151,7 +153,7 @@ export default {
             return arr;
           }
         });
-        console.log(this.flowRecommendleft);
+        // console.log(this.flowRecommendleft);
         this.flowRecommendright = this.flowRecommend.filter(function(
           item,
           index
@@ -166,6 +168,7 @@ export default {
     }
   },
   created() {
+    // console.log(this);
     this.flowRecommend = this.fR;
     this.flowRecommendtopl = this.flowRecommend[0].dataDetail;
     this.flowRecommendtopr = this.flowRecommend[1].dataDetail;
@@ -185,12 +188,30 @@ export default {
     });
   },
   mounted() {
-    console.log(this);
+    // console.log(this);
     this.flowTabList = this.fT;
+    window.addEventListener("scroll", this.handleScroll, true);
   },
   methods: {
     toggle(index) {
       this.currentSort = index;
+      console.log(index);
+      console.log(this.flowTabList[index].type)
+      this.type = this.flowTabList[index].type
+      this.$emit("changePage",this.type);
+    },
+    handleScroll() {
+      var top = Math.floor(
+        document.body.scrollTop ||
+          document.documentElement.scrollTop ||
+          window.pageXOffset
+      );
+      if (top > 1400) {
+        this.wTop = true;
+      } else {
+        this.wTop = false;
+      }
+      // console.log(top);
     }
   }
 };
@@ -207,6 +228,7 @@ export default {
     .mNewScrollX {
       .h(35); // 也可以不设置高度，让高度自适应内容的变化
       overflow: hidden;
+      .lh(35);
       .nav__list {
         .h(43); // 高度实际为 300 * 110% = 330px
         overflow-x: scroll;
@@ -397,6 +419,12 @@ export default {
         }
       }
     }
+  }
+  .wTop {
+    position: fixed;
+    top: 0;
+    z-index: 10;
+    background: #eee;
   }
 }
 </style>

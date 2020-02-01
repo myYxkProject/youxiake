@@ -19,9 +19,9 @@ export const getHomeData = () => {
 }
 
 // 获取首页瀑布流数据
-export const getFlowRecommend = () => {
+export const getFlowRecommend = (type=1,page=1) => {
     return new Promise((resolve, reject) => {
-        let url = 'flowrecommend/api/index/flowrecommend?sitecode=5&city_id=5&type=1&page=1'
+        let url = `flowrecommend/api/index/flowrecommend?sitecode=5&city_id=5&type=${type}&page=${page}`
        axios.get(url)
        .then((data)=>{
            resolve(data)

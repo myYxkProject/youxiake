@@ -1,6 +1,6 @@
 <template>
   <div class="mNewIndex">
-    <!-- <MBottomNav></MBottomNav> -->
+    <MBottomNav></MBottomNav>
     <MDownLoadApp></MDownLoadApp>
     <MIndexBanner :slides="banners"></MIndexBanner>
     <MIndexMainNav></MIndexMainNav>
@@ -8,7 +8,7 @@
     <MIndexWeekAndLocal :wl="weekLocal"></MIndexWeekAndLocal>
     <MIndexMuster :aB="activityBanner" :sP="saleProductList" :nP="newProduct" :kP="kingProduct"></MIndexMuster>
     <MIndexMinority :m="minority"></MIndexMinority>
-    <MIndexWaterfall :fT="flowTabList" :fR='flowRecommend'></MIndexWaterfall>
+    <MIndexWaterfall :fT="flowTabList" :fR="flowRecommend" @changePage="toshow" :type="type"></MIndexWaterfall>
   </div>
 </template>
 
@@ -47,7 +47,9 @@ export default {
       kingProduct: {},
       minority: {},
       flowTabList: [],
-      flowRecommend:[]
+      flowRecommend: [],
+      type: 1,
+      page: 1
     };
   },
   created() {
@@ -68,11 +70,33 @@ export default {
       // console.log(this.saleProductList);
       // console.log(this.activityBanner);
     });
-    getFlowRecommend().then(res => {
+    console.log(this.page);
+    // getFlowRecommend(this.type, this.page).then(res => {
+    //   // console.log(res)
+    //   console.log(this.page);
+    //   this.flowRecommend = res.data.data.list;
+    //   console.log(this.flowRecommend);
+    // });
+  },
+  mounted() {
+    getFlowRecommend(this.type, this.page).then(res => {
       // console.log(res)
-      this.flowRecommend = res.data.data.list
-      console.log(this.flowRecommend)
+      console.log(this.type);
+      this.flowRecommend = res.data.data.list;
+      console.log(this.flowRecommend);
     });
+  },
+  methods: {
+    toshow(type) {
+      console.log(type);
+      this.type = type;
+      getFlowRecommend(this.type, this.page).then(res => {
+        // console.log(res)
+        console.log(this.type);
+        this.flowRecommend = res.data.data.list;
+        console.log(this.flowRecommend);
+      });
+    }
   }
 };
 </script>

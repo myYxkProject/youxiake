@@ -42,11 +42,12 @@ export default {
   .w(375);
   .h(55);
   position: fixed;
-  bottom: 0;
+  .b(-2);
   background-color: @bgColor;
   display: flex;
   flex-direction: row;
   z-index: 2;
+  background-color: #fff;
   a {
     font-size: 14px;
     text-align: center;

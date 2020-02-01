@@ -93,7 +93,7 @@
             <i class="iconfont">&#xe614;</i>
             <span>修改密码</span>
           </a>
-          <a href>
+          <a @click="cityShow">
             <i class="iconfont">&#xe601;</i>
             <span>在线客服</span>
           </a>
@@ -103,7 +103,7 @@
           </a>
         </div>
       </div>
-      <div class="mCustomerService">
+      <div class="mCustomerService" v-show="show">
         <div class="mCustomerService__container">
           <div
             id="vux-scroller-w5trf"
@@ -122,21 +122,12 @@
                   <span></span>
                 </div>
                 <div class="container__body">
-                  <div class="body__list">北京周边游</div>
-                  <div class="body__list">四川西藏</div>
-                  <div class="body__list">内蒙东北</div>
-                  <div class="body__list">云贵广西</div>
-                  <div class="body__list">新疆线路</div>
-                  <div class="body__list">西北线路</div>
-                  <div class="body__list">山西陕西</div>
-                  <div class="body__list">湖南湖北</div>
-                  <div class="body__list">东南亚日韩朝</div>
-                  <div class="body__list">非洲南亚中东</div>
-                  <div class="body__list">欧美澳新极地</div>
-                  <div class="body__list">游侠集市</div>
-                  <div class="body__list">团队定制</div>
-                  <div class="body__list">保险咨询</div>
-                  <div class="body__list">投诉与建议</div>
+                  <div
+                    class="body__list"
+                    v-for="(item,index) in onLineKeFuCity"
+                    :key="index"
+                    :groupid="item.groupid"
+                  >{{item.name}}</div>
                 </div>
                 <div class="container__title">
                   <span></span>
@@ -145,98 +136,36 @@
                 </div>
                 <div class="container__footer">
                   <a href="tel:400-670-6300" class="footer__phone">
-                    400-670-6300
+                    {{onLineKeFuData.tel}}
                     <i></i>
                   </a>
                   <div class="footer__text">免长途费</div>
-                  <div class="footer__date">周一到周日 9:00-22:00</div>
+                  <div class="footer__date">{{onLineKeFuData.time}}</div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="container__cancel">取消</div>
+          <div class="container__cancel" @click="cityHide">取消</div>
         </div>
       </div>
     </div>
     <div class="mUserCenterRecommend">
       <div class="mUserCenterRecommend__head">精选推荐</div>
       <div class="mUserCenterRecommend__body">
-        <a href class="mUserCenterRecommend__line">
-          <div class="line__pic" style="background-image: url(&quot;http://gallery.youxiake.com/Public/Data/upload/productimg/201910/10/5d9ed2189905f.jpg?imageslim&quot;);">
-            <div class="line__type">深度游 | 拉萨出发</div>
+        <a href class="mUserCenterRecommend__line" v-for="(item,index) in userRecommends" :key="index" :pid='item.pid'>
+          <div
+            class="line__pic"
+            :style="{backgroundImage:'url('+item.img+')'}"
+          >
+            <div class="line__type">{{item.theme_label}} | {{item.place_label}}</div>
           </div>
-          <div class="line__title">[冬游西藏·梦幻蓝冰]普莫雍错蓝冰-雪域拉萨-卡若拉冰川-羊卓雍措-亚东秘境-桑耶寺-雍布拉康-雪堆白手工艺学校-扎什伦布寺-冲巴雍措！去世界屋脊寻找“蓝精灵”7日之旅！</div>
+          <div class="line__title">{{item.name}}</div>
           <div class="line__msg">
-              <div class="line__price">
-                  <span>￥</span>
-                  <b>3180</b>
-              </div>
-              <div class="line__days">7天6晚</div>
-          </div>
-        </a>
-        <a href class="mUserCenterRecommend__line">
-          <div class="line__pic" style="background-image: url(&quot;http://gallery.youxiake.com/Public/Data/upload/productimg/201910/10/5d9ed2189905f.jpg?imageslim&quot;);">
-            <div class="line__type">深度游 | 拉萨出发</div>
-          </div>
-          <div class="line__title">[冬游西藏·梦幻蓝冰]普莫雍错蓝冰-雪域拉萨-卡若拉冰川-羊卓雍措-亚东秘境-桑耶寺-雍布拉康-雪堆白手工艺学校-扎什伦布寺-冲巴雍措！去世界屋脊寻找“蓝精灵”7日之旅！</div>
-          <div class="line__msg">
-              <div class="line__price">
-                  <span>￥</span>
-                  <b>3180</b>
-              </div>
-              <div class="line__days">7天6晚</div>
-          </div>
-        </a>
-        <a href class="mUserCenterRecommend__line">
-          <div class="line__pic" style="background-image: url(&quot;http://gallery.youxiake.com/Public/Data/upload/productimg/201910/10/5d9ed2189905f.jpg?imageslim&quot;);">
-            <div class="line__type">深度游 | 拉萨出发</div>
-          </div>
-          <div class="line__title">[冬游西藏·梦幻蓝冰]普莫雍错蓝冰-雪域拉萨-卡若拉冰川-羊卓雍措-亚东秘境-桑耶寺-雍布拉康-雪堆白手工艺学校-扎什伦布寺-冲巴雍措！去世界屋脊寻找“蓝精灵”7日之旅！</div>
-          <div class="line__msg">
-              <div class="line__price">
-                  <span>￥</span>
-                  <b>3180</b>
-              </div>
-              <div class="line__days">7天6晚</div>
-          </div>
-        </a>
-        <a href class="mUserCenterRecommend__line">
-          <div class="line__pic" style="background-image: url(&quot;http://gallery.youxiake.com/Public/Data/upload/productimg/201910/10/5d9ed2189905f.jpg?imageslim&quot;);">
-            <div class="line__type">深度游 | 拉萨出发</div>
-          </div>
-          <div class="line__title">[冬游西藏·梦幻蓝冰]普莫雍错蓝冰-雪域拉萨-卡若拉冰川-羊卓雍措-亚东秘境-桑耶寺-雍布拉康-雪堆白手工艺学校-扎什伦布寺-冲巴雍措！去世界屋脊寻找“蓝精灵”7日之旅！</div>
-          <div class="line__msg">
-              <div class="line__price">
-                  <span>￥</span>
-                  <b>3180</b>
-              </div>
-              <div class="line__days">7天6晚</div>
-          </div>
-        </a>
-        <a href class="mUserCenterRecommend__line">
-          <div class="line__pic" style="background-image: url(&quot;http://gallery.youxiake.com/Public/Data/upload/productimg/201910/10/5d9ed2189905f.jpg?imageslim&quot;);">
-            <div class="line__type">深度游 | 拉萨出发</div>
-          </div>
-          <div class="line__title">[冬游西藏·梦幻蓝冰]普莫雍错蓝冰-雪域拉萨-卡若拉冰川-羊卓雍措-亚东秘境-桑耶寺-雍布拉康-雪堆白手工艺学校-扎什伦布寺-冲巴雍措！去世界屋脊寻找“蓝精灵”7日之旅！</div>
-          <div class="line__msg">
-              <div class="line__price">
-                  <span>￥</span>
-                  <b>3180</b>
-              </div>
-              <div class="line__days">7天6晚</div>
-          </div>
-        </a>
-        <a href class="mUserCenterRecommend__line">
-          <div class="line__pic" style="background-image: url(&quot;http://gallery.youxiake.com/Public/Data/upload/productimg/201910/10/5d9ed2189905f.jpg?imageslim&quot;);">
-            <div class="line__type">深度游 | 拉萨出发</div>
-          </div>
-          <div class="line__title">[冬游西藏·梦幻蓝冰]普莫雍错蓝冰-雪域拉萨-卡若拉冰川-羊卓雍措-亚东秘境-桑耶寺-雍布拉康-雪堆白手工艺学校-扎什伦布寺-冲巴雍措！去世界屋脊寻找“蓝精灵”7日之旅！</div>
-          <div class="line__msg">
-              <div class="line__price">
-                  <span>￥</span>
-                  <b>3180</b>
-              </div>
-              <div class="line__days">7天6晚</div>
+            <div class="line__price">
+              <span>￥</span>
+              <b>{{item.minprice}}</b>
+            </div>
+            <div class="line__days">{{item.days}}</div>
           </div>
         </a>
       </div>
@@ -247,9 +176,37 @@
 
 <script>
 import MBottomNav from "components/mBottomNav/mBottomNav";
-
+import { getOnLineKeFu, getUserRecommends } from "api/userCenter.js";
 export default {
-  components: { MBottomNav }
+  components: { MBottomNav },
+  data() {
+    return {
+      onLineKeFuData: {},
+      onLineKeFuCity: [],
+      userRecommends:[],
+      show: false
+    };
+  },
+  mounted() {
+    getOnLineKeFu().then(res => {
+      this.onLineKeFuData = res.data;
+      this.onLineKeFuCity = res.data.qiyu;
+    //   console.log(this.onLineKeFuData);
+    //   console.log(this.onLineKeFuCity);
+    });
+    getUserRecommends().then(res=>{
+        this.userRecommends = res.data
+        console.log(this.userRecommends)
+    })
+  },
+  methods: {
+    cityShow() {
+      this.show = true;
+    },
+    cityHide() {
+      this.show = false;
+    }
+  }
 };
 </script>
 
@@ -394,7 +351,7 @@ export default {
       }
     }
     .mCustomerService {
-      display: none;
+      //   display: none;
       position: fixed;
       left: 0;
       top: 0;
@@ -511,6 +468,7 @@ export default {
     flex-direction: column;
     align-items: center;
     width: 100%;
+    .mbottom(50);
     .mUserCenterRecommend__head {
       justify-content: center;
       .h(26);
@@ -584,33 +542,33 @@ export default {
           color: #333;
           overflow: hidden;
         }
-        .line__msg{
+        .line__msg {
+          display: flex;
+          justify-content: space-between;
+          align-items: baseline;
+          margin-top: 0.2rem;
+          padding: 0 0.1rem;
+          .w(167.5);
+          .line__price {
             display: flex;
-            justify-content: space-between;
             align-items: baseline;
-            margin-top: .2rem;
-            padding: 0 .1rem;
-            .w(167.5);
-            .line__price{
-                display: flex;
-                align-items: baseline;
-                font-size: 12px;
-                color: #999;
-                span{
-                    font-size: 12px;
-                    color: #ff7100;
-                }
-                b{
-                    font-size: 12px;
-                    color: #ff7100;
-                }
+            font-size: 12px;
+            color: #999;
+            span {
+              font-size: 12px;
+              color: #ff7100;
             }
-            .line__days{
-                padding: .03rem .1rem;
-                font-size: 12px;
-                color: #999;
-                background: #eee;
+            b {
+              font-size: 12px;
+              color: #ff7100;
             }
+          }
+          .line__days {
+            padding: 0.03rem 0.1rem;
+            font-size: 12px;
+            color: #999;
+            background: #eee;
+          }
         }
       }
     }

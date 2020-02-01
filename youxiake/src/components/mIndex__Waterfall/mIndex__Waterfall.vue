@@ -221,6 +221,7 @@ export default {
 @import "~style/index.less";
 .mIndex__Waterfall {
   .mtop(5);
+  .mbottom(55);
   .mIndex__Waterfall__nav {
     .h(39);
     .mbottom(5);

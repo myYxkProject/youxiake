@@ -10,21 +10,14 @@ module.exports = {
     // 服务器代理（解决跨域问题）
     devServer: {
         proxy: {
-            '/banner': {
+            '/yxk': {
                 // 请求的目录路径
                 target: 'https://m.youxiake.com',
                 //  允许改变请求源
                 changeOrigin: true,
                 // 重写路径
                 pathRewrite: {
-                    '^/banner': ''
-                }
-            },
-            '/flowrecommend':{
-                target:'https://m.youxiake.com',
-                changeOrigin:true,
-                pathRewrite:{
-                    '^/flowrecommend':''
+                    '^/yxk': ''
                 }
             }
         }

@@ -4,6 +4,7 @@ import Home from 'views/Home/Home.vue'
 import Order from 'views/Order/Order.vue'
 import UserCenter from 'views/UserCenter/UserCenter.vue'
 import Login from 'views/Login/Login.vue';
+import {getItem} from 'utils/webStorage.js';
 
 Vue.use(VueRouter)
 
@@ -16,7 +17,14 @@ const routes = [
   {
     path:'/order',
     name:'order',
-    component:Order
+    component:Order,
+    beforeEnter: (to, from, next) => {
+      if(getItem('token')){
+        next()
+      }else{
+        next('/login')
+      }
+    }
   },
   {
     path:'/userCenter',

@@ -10,19 +10,19 @@
             </div>
           </div>
           <div class="mLoginNewContent__item">
-            <el-input v-model="phone" placeholder="请输入手机号"></el-input>
+            <el-input v-model="phone" placeholder="请输入用户名"></el-input>
           </div>
           <div class="mLoginNewContent__item">
-            <el-input v-model="verCode" placeholder="请输入验证码"></el-input>
+            <el-input type="passWord" v-model="verCode" placeholder="请输入密码"></el-input>
             <div class="mLoginNewContent__item__verifycode">
-              <div class="mLoginNewVerifyCode">
+              <!-- <div class="mLoginNewVerifyCode">
                 <button @click="getCode">获取验证码</button>
-              </div>
+              </div>-->
             </div>
           </div>
           <div class="mLoginNewContent__item">
             <div class="mLoginNewContent__item__loginbtn">
-              <el-button type="warning" class="wraning-btn">
+              <el-button type="warning" class="wraning-btn" @click="login" :plain="true">
                 <span>一键注册/登录</span>
               </el-button>
             </div>
@@ -34,13 +34,14 @@
             </div>
           </div>
         </div>
-       
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { UserLogin } from "api/user.js";
+import { setItem } from "utils/webStorage.js";
 export default {
   data() {
     return {
@@ -50,7 +51,28 @@ export default {
   },
   methods: {
     getCode() {
-      console.log(111);
+      // console.log(111);
+    },
+    login() {
+      // console.log(222)
+      let userName = this.phone;
+      let passWord = this.verCode;
+      console.log(userName, passWord);
+      UserLogin(userName, passWord)
+        .then(res => {
+          console.log("res", res);
+          this.$message({
+            message: "恭喜你，登录成功",
+            type: "success"
+          });
+          setItem('token',res.data.token)
+          setItem('uid',res.data.uid)
+          this.$router.push('/userCenter')
+        })
+        .catch(err => {
+          console.log("err", err);
+          this.$message.error('错了哦，请重新登录');
+        });
     }
   }
 };
@@ -181,7 +203,6 @@ export default {
           }
         }
       }
-     
     }
   }
 }

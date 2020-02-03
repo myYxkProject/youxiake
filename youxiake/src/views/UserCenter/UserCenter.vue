@@ -1,13 +1,34 @@
 <template>
   <div class="mUserCenter">
     <div class="mUserCenterHeader">
-      <div class="header__box">
+      <div class="header__box login" v-if="!loginState">
         <div class="header__avatar"></div>
         <div class="header__login" @click="login">
           去登录/注册
           <span>新用户注册送388元大礼包</span>
         </div>
       </div>
+      <div class="header__box logout" v-else>
+        <div
+          class="header__avatar"
+          style="background-image: url('https://m.youxiake.com/images/no_avatar.png');"
+        ></div>
+        <div class="header__user">
+          <div class="user__name">
+            <div>{{userInfo.userName}}</div>
+            <i></i>
+          </div>
+          <div class="user_level">
+            <span>1 普陀山</span>
+            <i
+              style="background-image: url('https://qimg4.youxiake.com/Public/Data/upload/201905/17/78451558078037.png');"
+            >普通会员</i>
+          </div>
+        </div>
+      </div>
+      <el-button :plain="true" @click="logout" class="header__logout" v-show="loginState">
+        <!-- <div class="header__logout" @click="logout" v-show="loginState"></div> -->
+      </el-button>
     </div>
     <div class="mUserCenterOrders">
       <div class="mUserCenterOrders__head">
@@ -152,11 +173,14 @@
     <div class="mUserCenterRecommend">
       <div class="mUserCenterRecommend__head">精选推荐</div>
       <div class="mUserCenterRecommend__body">
-        <a href class="mUserCenterRecommend__line" v-for="(item,index) in userRecommends" :key="index" :pid='item.pid'>
-          <div
-            class="line__pic"
-            :style="{backgroundImage:'url('+item.img+')'}"
-          >
+        <a
+          href
+          class="mUserCenterRecommend__line"
+          v-for="(item,index) in userRecommends"
+          :key="index"
+          :pid="item.pid"
+        >
+          <div class="line__pic" :style="{backgroundImage:'url('+item.img+')'}">
             <div class="line__type">{{item.theme_label}} | {{item.place_label}}</div>
           </div>
           <div class="line__title">{{item.name}}</div>
@@ -177,26 +201,44 @@
 <script>
 import MBottomNav from "components/mBottomNav/mBottomNav";
 import { getOnLineKeFu, getUserRecommends } from "api/userCenter.js";
+import { getItem, clear } from "utils/webStorage.js";
+import { UserLogout,getUser } from "api/user.js";
 export default {
   components: { MBottomNav },
   data() {
     return {
       onLineKeFuData: {},
       onLineKeFuCity: [],
-      userRecommends:[],
-      show: false
+      userRecommends: [],
+      loginState: false,
+      show: false,
+      userInfo:[]
     };
   },
   mounted() {
     getOnLineKeFu().then(res => {
       this.onLineKeFuData = res.data;
       this.onLineKeFuCity = res.data.qiyu;
-    //   console.log(this.onLineKeFuData);
-    //   console.log(this.onLineKeFuCity);
+      //   console.log(this.onLineKeFuData);
+      //   console.log(this.onLineKeFuCity);
     });
-    getUserRecommends().then(res=>{
-        this.userRecommends = res.data
-        console.log(this.userRecommends)
+    getUserRecommends().then(res => {
+      this.userRecommends = res.data;
+      // console.log(this.userRecommends);
+    });
+    if (getItem("token")) {
+      this.loginState = true;
+    } else {
+      this.loginState = false;
+    };
+    getUser().then(res=>{
+      let uid = getItem('uid')
+      res.data.list.forEach((item,index)=>{
+        if(item._id == uid){
+          this.userInfo = item
+        }
+      })
+      console.log(this.userInfo)
     })
   },
   methods: {
@@ -206,8 +248,27 @@ export default {
     cityHide() {
       this.show = false;
     },
-    login(){
-        this.$router.push('/login')
+    login() {
+      // console.log(111)
+      this.$router.push("/login");
+    },
+    logout() {
+      UserLogout()
+        .then(res => {
+          console.log("then", res);
+          clear();
+          this.$message({
+            message: "退出成功",
+            type: "success"
+          });
+          setTimeout(()=>{
+            this.$router.go(0);
+          },1000)
+        })
+        .catch(err => {
+          console.log("catch", err);
+          this.$message.error('错了哦，退出失败');
+        });
     }
   }
 };
@@ -258,6 +319,74 @@ export default {
           background: linear-gradient(90deg, #ff6000, #ffa32c);
         }
       }
+      .header__user {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        .h(50);
+        .user__name {
+          display: flex;
+          align-items: center;
+          div {
+            margin-right: 0.3rem;
+            .w(82);
+            font-size: 22px;
+            font-weight: 700;
+            color: #000;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+          }
+          i {
+            position: relative;
+            display: inline-block;
+            .w(18);
+            .h(18);
+            background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACUAAAAlCAYAAADFniADAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA4RpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDplODlmNmFmNC03NzY4LWZlNDEtOTBkMi0yZDQ5N2NhMjc0ZTciIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NzMwNEZCMzQ1OUFDMTFFOUI2MUNDNjZEQTIzOUREREEiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NzMwNEZCMzM1OUFDMTFFOUI2MUNDNjZEQTIzOUREREEiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTggKFdpbmRvd3MpIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6NjU3MWRiMjEtNmExYy0zNDRiLTgyM2QtMTRkYWU4NGU1Y2EyIiBzdFJlZjpkb2N1bWVudElEPSJhZG9iZTpkb2NpZDpwaG90b3Nob3A6ZjAwNjMxNjctMTVmNy04ODQxLWIxYzktNWQzODYxOTMxOThlIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+Rwq5TgAAAf1JREFUeNrsmLtKA0EUhjdrQDsxeMdLxAsigooognchjZWdPoBga2EhipWgpS9gp42FDyCiFiKIIiKIKF6IFzQGjUZME5H4D5zAsuzEndnJGjAD3yYbZs5+OzM5O7O69velEmyBb7AP/B4c6sAc8IE8ycARsABOBNv5wTaoMfy2wQ7HIKGAJ5ArKLVnEedNUySUxGdTho3OLH3emWLsqJRatinUAB6ozRKoBUE6D4F6r0WjgMScegRnNuo10hwqo/NJwBwGwSoYB5dWPZWu0kTzzqqX582V3ZBqBs8coXsaUlelWkCYI3RLc0pzU6oNvHCEgqb85IpUO3jlCN2A6lSN0yHVQUnQSugKVP0WQLVUF3jnCF2ACjtBVEp1gyhH6ByU2w2kSqoXfHCEWGItFQmmQqoffHKETkGJaECnUkMgxhFiS5kimbt0IhVIIcSWRIWyc0FWqphyUcQixpHAMobNtTVwAMacSHnowlMWWfsQFAjc3IqhbTyZVGWkhg31p0ErPd/YGjtfcKR2Tdfv8UoO+Yzh+yLIAX20NIk6zb4yUgOUJJMlRDuRa/Cl6sEpOnybVI+tECcc7ICUDV8n/atGwTr1kPIiKhWkNJDWogvWD7uxZda1DCxZqazUv5DycjJ8tqdMJa7TAzVTSoI2H9oIvWRI/DExepGm/QgwAP+6PhdCKYNpAAAAAElFTkSuQmCC")
+              50% no-repeat;
+            background-size: 100% 100%;
+          }
+        }
+        .user_level {
+          display: flex;
+          align-items: center;
+          span {
+            .mright(7.5);
+            .pright(7.5);
+            .ptop(2);
+            .w(68);
+            .h(15);
+            border-radius: 7.5px;
+            font-size: 10px;
+            color: #d8ab78;
+            background-color: #000;
+            text-align: center;
+          }
+          i {
+            .pleft(20);
+            .pright(7.5);
+            .ptop(2);
+            .h(15);
+            .h(15);
+            font-size: 10px;
+            font-style: normal;
+            color: #000;
+            border-radius: 7.5px;
+            background: #fff2b3 7.5px no-repeat;
+            background-size: 10px 10px;
+          }
+        }
+      }
+    }
+    .header__logout {
+      position: absolute;
+      .r(13);
+      .t(8);
+      .w(20);
+      .h(20);
+      background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA4RpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDplODlmNmFmNC03NzY4LWZlNDEtOTBkMi0yZDQ5N2NhMjc0ZTciIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6MjNEMjk2QzY5N0I5MTFFOUJCNDFCQUEyOTFDQ0NBQTIiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6MjNEMjk2QzU5N0I5MTFFOUJCNDFCQUEyOTFDQ0NBQTIiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTkgKFdpbmRvd3MpIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6NzViYzRmNjgtZWZmMy03MjRkLThmY2QtMTA0YTQwOTNiYmM5IiBzdFJlZjpkb2N1bWVudElEPSJhZG9iZTpkb2NpZDpwaG90b3Nob3A6NTFhMzE2ZjYtOGVkOC1jODRjLWE2NzItNDg3YjVjMTU4ZGI2Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+/F0r/wAAAh1JREFUeNrEl0soRkEUx6/7XUQIhSKPvMXCFykLOytRNpRib2PBxspeUlZ2NjZCKUTJgjzyLG+WCnktREny9j85t07T9S18M9ep39fM3Jlv/nfmzJlzHevHmkA3KACfIAJ8WfrM/T8bvINV0AlO6WEdP/SbNZDg4KdVKH0Ci+CR1eoymjAA8kGQ26pBFRVmucMzaLHMGomYE6vQRm/5wQ/PwJhhATTXoKzLZX7V7Hi/2aus2ErZ8UFAQPqGHxOqtgeuQQzY8kOAGlOuQAWIBOe2clR0+kAyGAYTIF15Ritw7lameeJDzT4gA9wJyPHqZBtceop0C1wu4Rf1FCFXIKBZRCpYFyux7bEdRgWQJYFlZTuydAuIYv/xwhWxJEQcgWyLO4Tj+XS5DIBC8BKi3z3IFPVSMA4awvX6RlD/x7F0E9Y4YcaBUVAMisBbiPF3nOyUi7ZNsEKFKR54wFHrLxYLon+BLE05DRSOM9zBOgSEMhIxLyY/Bnmyg0kBKWBDTL7jFQcmDQlIU87/Frf5ForLyMu5TOe+GdyqndRToNN2wRBIBF3gQrx0Bztuv9yCfUNOqFql2JZa2/LfpBNmSQGfPiWlz6L8ZgtHjONLxbRly3TNEQJyQQ/n7U8GvowiOTHplqtOTterNF6CG76adTklfZDE830gLehmLbv/8HHaR6scIRKGdlb0ockZvzjOxIjUnOoPYAaMUKdvAQYA+a3ENKr0HdAAAAAASUVORK5CYII=")
+        50% no-repeat;
+      background-size: 16px 16px;
     }
   }
   .mUserCenterOrders {

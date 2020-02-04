@@ -2,20 +2,23 @@
   <div class="mSearch">
     <div class="mSearch__head">
       <div class="mSearch__head__search">
-        <i class="iconfont">&#xe64c;</i>
-        <input type="search" class="mSearch__head__input" placeholder="探索全球小众目的地和创意玩法" />
+        <i class="iconfont" @click="find">&#xe64c;</i>
+        <input
+          v-model="searchValue"
+          type="search"
+          class="mSearch__head__input"
+          placeholder="探索全球小众目的地和创意玩法"
+        />
       </div>
-      <div class="mSearch__head__cancel">取消</div>
+      <div class="mSearch__head__cancel" @click="cancelMsg">取消</div>
     </div>
     <div class="mSearch__history">
       <div class="mSearch__history__title">
         <h3>历史搜索</h3>
-        <i class="iconfont">&#xe63e;</i>
+        <i class="iconfont" @click="delSearchValue">&#xe63e;</i>
       </div>
       <div class="mSearch__history__list">
-        <span>f</span>
-        <span>哈尔滨</span>
-        <span>北京</span>
+        <span v-for="(item,index) in searchHistory" :key="index">{{item}}</span>
       </div>
     </div>
     <MSearchRecommend></MSearchRecommend>
@@ -39,8 +42,25 @@ export default {
   components: { MSearchRank, MSearch__new, MSearchRecommend },
   data() {
     return {
-      searchValue: ""
+      searchValue: "",
+      searchHistory: ["哈尔滨", "北京"]
     };
+  },
+  methods: {
+    cancelMsg() {
+      this.$router.replace("/");
+    },
+    find() {
+      if (this.searchValue !== "") {
+        // console.log(this.searchValue);
+        let value = this.searchValue;
+        this.searchHistory.push(value);
+        // console.log(this.searchHistory)
+      }
+    },
+    delSearchValue() {
+      this.searchHistory = [];
+    }
   }
 };
 </script>

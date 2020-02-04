@@ -6,7 +6,7 @@
     <div class="mSearch__new__lists">
       <div class="mSearch__new__list" v-for="(item,index) in productNewRecommends" :key="index">
         <a href>
-          <img :src="item.img"/>
+          <img :src="item.img" />
           <div class="mSearch__new__tag">
             {{item.productType}}
             <span></span>
@@ -33,13 +33,76 @@ import { getSearchData } from "api/search.js";
 export default {
   data() {
     return {
-      productNewRecommends: []
+      productNewRecommends: [],
+      page: 1,
+      cH:667
     };
   },
-  mounted() {
+  methods: {
+    // 获取滚动条当前的位置
+    getScrollTop() {
+      let scrollTop = 0;
+      if (document.documentElement && document.documentElement.scrollTop) {
+        scrollTop = Math.floor(document.documentElement.scrollTop);
+      } else if (document.body) {
+        scrollTop = Math.floor(document.body.scrollTop);
+      }
+      // console.log("scrollTop", scrollTop);
+      return scrollTop;
+    },
+    // 获取当前可视范围的高度
+    getClientHeight() {
+      let clientHeight = 0;
+      if (document.body.clientHeight && document.documentElement.clientHeight) {
+        clientHeight = Math.min(
+          document.body.clientHeight,
+          document.documentElement.clientHeight
+        );
+      } else {
+        clientHeight = Math.max(
+          document.body.clientHeight,
+          document.documentElement.clientHeight
+        );
+      }
+      // console.log("clientHeight", clientHeight);
+      return clientHeight;
+    },
+    // // 获取文档完整的高度
+    // getScrollHeight() {
+    //   return Math.max(
+    //     document.body.scrollHeight,
+    //     document.documentElement.scrollHeight
+    //   );
+    // },
+    // 滚动事件触发下拉加载
+    onScroll() {
+      // this.cH = this.getClientHeight();
+      console.log(this.cH - this.getScrollTop());
+      console.log(this.cH);
+      if (this.cH - this.getScrollTop() <= 10) {
+        if (this.page < 7) {
+          this.page++;
+          console.log(this.page);
+          this.cH += 667;
+          console.log(this.cH)
+          getSearchData(this.page).then(res => {
+            this.productNewRecommends = this.productNewRecommends.concat(
+              res.data.productNewRecommends
+            );
+          });
+        } else {
+          alert("没有更多了");
+        }
+      }
+    }
+  },
+  created() {
     getSearchData().then(res => {
       this.productNewRecommends = res.data.productNewRecommends;
-      console.log(this.productNewRecommends)
+      // console.log(this.productNewRecommends)
+    });
+    this.$nextTick(function() {
+      window.addEventListener("scroll", this.onScroll);
     });
   }
 };

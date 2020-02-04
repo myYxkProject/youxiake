@@ -29,9 +29,9 @@ export default {
     },
     mounted(){
         getSearchData().then((res)=>{
-            console.log(res)
+            // console.log(res)
             this.recommendSearch = res.data.recommendSearch
-            console.log(this.recommendSearch)
+            // console.log(this.recommendSearch)
         })
     }
 };

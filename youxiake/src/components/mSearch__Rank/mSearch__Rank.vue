@@ -26,7 +26,7 @@ export default {
   mounted() {
       getSearchData().then(res=>{
           this.hotSerach = res.data.hotSerach
-          console.log(this.hotSerach)
+          // console.log(this.hotSerach)
       })
   }
 };

@@ -15,6 +15,7 @@
           type="search"
           autocomplete="off"
           class="search__input"
+          @click="search"
         />
       </div>
     </div>
@@ -93,6 +94,11 @@ export default {
         // 获取完整的swiper dom元素
         this.initBanner();
       });
+    }
+  },
+  methods:{
+    search(){
+      this.$router.push('/search')
     }
   }
 };

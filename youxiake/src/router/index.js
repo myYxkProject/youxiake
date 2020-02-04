@@ -5,6 +5,7 @@ import Order from 'views/Order/Order.vue'
 import UserCenter from 'views/UserCenter/UserCenter.vue'
 import Login from 'views/Login/Login.vue';
 import {getItem} from 'utils/webStorage.js';
+import Search from 'views/Search/Search.vue';
 
 Vue.use(VueRouter)
 
@@ -35,6 +36,11 @@ const routes = [
     path:'/login',
     name:'login',
     component:Login
+  },
+  {
+    path:'/search',
+    name:'search',
+    component:Search
   }
 ]
 

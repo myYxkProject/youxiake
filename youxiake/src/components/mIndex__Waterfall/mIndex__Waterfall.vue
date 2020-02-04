@@ -227,17 +227,21 @@ export default {
     .mbottom(5);
     .w(375);
     .mNewScrollX {
-      .h(35); // 也可以不设置高度，让高度自适应内容的变化
+      .h(39); // 也可以不设置高度，让高度自适应内容的变化
       overflow: hidden;
-      .lh(35);
+      .lh(39);
+      .nav__list::-webkit-scrollbar{
+        display: none;
+      }
       .nav__list {
-        .h(43); // 高度实际为 300 * 110% = 330px
+        .h(39); // 高度实际为 300 * 110% = 330px
+        .lh(39);
         overflow-x: scroll;
         white-space: nowrap;
         li {
           display: inline-block;
-          height: 100%;
-          .lh(43);
+          .h(39);
+          .lh(39);
           .mleft(5);
           .mright(10);
           text-align: center;

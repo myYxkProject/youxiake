@@ -26,7 +26,7 @@
           </div>
         </div>
       </div>
-      <el-button :plain="true" @click="logout" class="header__logout" v-show="loginState">
+      <el-button :plain="true"  @click="logout" class="header__logout" v-show="loginState">
         <!-- <div class="header__logout" @click="logout" v-show="loginState"></div> -->
       </el-button>
     </div>
@@ -202,7 +202,7 @@
 import MBottomNav from "components/mBottomNav/mBottomNav";
 import { getOnLineKeFu, getUserRecommends } from "api/userCenter.js";
 import { getItem, clear } from "utils/webStorage.js";
-import { UserLogout,getUser } from "api/user.js";
+import { UserLogout, getUser } from "api/user.js";
 export default {
   components: { MBottomNav },
   data() {
@@ -212,7 +212,7 @@ export default {
       userRecommends: [],
       loginState: false,
       show: false,
-      userInfo:[]
+      userInfo: []
     };
   },
   mounted() {
@@ -230,16 +230,16 @@ export default {
       this.loginState = true;
     } else {
       this.loginState = false;
-    };
-    getUser().then(res=>{
-      let uid = getItem('uid')
-      res.data.list.forEach((item,index)=>{
-        if(item._id == uid){
-          this.userInfo = item
+    }
+    getUser().then(res => {
+      let uid = getItem("uid");
+      res.data.list.forEach((item, index) => {
+        if (item._id == uid) {
+          this.userInfo = item;
         }
-      })
-      console.log(this.userInfo)
-    })
+      });
+      console.log(this.userInfo);
+    });
   },
   methods: {
     cityShow() {
@@ -253,22 +253,31 @@ export default {
       this.$router.push("/login");
     },
     logout() {
-      UserLogout()
-        .then(res => {
-          console.log("then", res);
-          clear();
-          this.$message({
-            message: "退出成功",
-            type: "success"
-          });
-          setTimeout(()=>{
-            this.$router.go(0);
-          },1000)
+      this.$confirm("确定退出登录吗?", {
+        confirmButtonText: "是",
+        cancelButtonText: "否",
+        type: "warning",
+        center: true
+      })
+        .then(() => {
+          UserLogout()
+            .then(res => {
+              console.log("then", res);
+              clear();
+              this.$message({
+                message: "退出成功",
+                type: "success"
+              });
+              setTimeout(() => {
+                this.$router.go(0);
+              }, 1000);
+            })
+            .catch(err => {
+              console.log("catch", err);
+              this.$message.error("错了哦，退出失败");
+            });
         })
-        .catch(err => {
-          console.log("catch", err);
-          this.$message.error('错了哦，退出失败');
-        });
+        
     }
   }
 };

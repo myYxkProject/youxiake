@@ -3,7 +3,7 @@
     <div class="mSearch__head">
       <div class="mSearch__head__search">
         <i class="iconfont">&#xe64c;</i>
-        <input type="search" class="mSearch__head__input" />
+        <input type="search" class="mSearch__head__input" placeholder="探索全球小众目的地和创意玩法" />
       </div>
       <div class="mSearch__head__cancel">取消</div>
     </div>
@@ -18,51 +18,7 @@
         <span>北京</span>
       </div>
     </div>
-    <div class="mSearch__Recommend">
-      <div class="mSearch__Recommend__title">
-        <h3>搜索推荐</h3>
-      </div>
-      <div class="xs-container">
-        <div class="mSearch__Recommend__items">
-          <div class="mSearch__Recommend__item">
-            <a href>
-              <img
-                src="https://qimg4.youxiake.com/upload/202001/22/15301579675677.jpg?imageMogr2/auto-orient/thumbnail/!235x134r/strip/gravity/Center/crop/!235x134/quality/90"
-              />
-              <h2>春节游北京</h2>
-              <span>紫荆城中过大年</span>
-            </a>
-          </div>
-          <div class="mSearch__Recommend__item">
-            <a href>
-              <img
-                src="https://qimg4.youxiake.com/upload/202001/22/15301579675677.jpg?imageMogr2/auto-orient/thumbnail/!235x134r/strip/gravity/Center/crop/!235x134/quality/90"
-              />
-              <h2>春节游北京</h2>
-              <span>紫荆城中过大年</span>
-            </a>
-          </div>
-          <div class="mSearch__Recommend__item">
-            <a href>
-              <img
-                src="https://qimg4.youxiake.com/upload/202001/22/15301579675677.jpg?imageMogr2/auto-orient/thumbnail/!235x134r/strip/gravity/Center/crop/!235x134/quality/90"
-              />
-              <h2>春节游北京</h2>
-              <span>紫荆城中过大年</span>
-            </a>
-          </div>
-          <div class="mSearch__Recommend__item">
-            <a href>
-              <img
-                src="https://qimg4.youxiake.com/upload/202001/22/15301579675677.jpg?imageMogr2/auto-orient/thumbnail/!235x134r/strip/gravity/Center/crop/!235x134/quality/90"
-              />
-              <h2>春节游北京</h2>
-              <span>紫荆城中过大年</span>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
+    <MSearchRecommend></MSearchRecommend>
     <MSearchRank></MSearchRank>
     <div class="mSearch__more">
       <span>没有你想要的？</span>
@@ -78,9 +34,9 @@
 <script>
 import MSearchRank from "components/mSearch__Rank/mSearch__Rank.vue";
 import MSearch__new from "components/mSearch__new/mSearch__new.vue";
-
+import MSearchRecommend from "components/mSearch__Recommend/mSearch__Recommend.vue";
 export default {
-  components: { MSearchRank, MSearch__new },
+  components: { MSearchRank, MSearch__new, MSearchRecommend },
   data() {
     return {
       searchValue: ""
@@ -180,64 +136,7 @@ export default {
       }
     }
   }
-  .mSearch__Recommend {
-    .pbottom(15);
-    border-bottom: 1px solid #eee;
-    margin: 12.5px 0 0 15px;
-    .mSearch__Recommend__title {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      h3 {
-        color: #999;
-        font-size: 14px;
-        font-weight: 400;
-      }
-    }
-    .xs-container {
-      .mSearch__Recommend__items::-webkit-scrollbar {
-        display: none;
-      }
-      .mSearch__Recommend__items {
-        .mtop(12.5);
-        overflow: scroll;
-        white-space: nowrap;
-        .mSearch__Recommend__item {
-          .w(117.5);
-          .h(108);
-          .mright(10);
-          display: inline-block;
-          img {
-            .w(117.5);
-            .h(67);
-            border-radius: 4px;
-            background: #fffae5;
-            overflow: hidden;
-          }
-          h2 {
-            font-size: 14px;
-            color: #333;
-            text-overflow: ellipsis;
-            overflow: hidden;
-            white-space: nowrap;
-            .mtop(1.5);
-            .h(18.5);
-            .lh(18.5);
-          }
-          span {
-            font-size: 12px;
-            color: #999;
-            text-overflow: ellipsis;
-            overflow: hidden;
-            white-space: nowrap;
-            display: block;
-            .h(15.5);
-            .lh(15.5);
-          }
-        }
-      }
-    }
-  }
+
   .mSearch__more {
     display: flex;
     align-items: center;

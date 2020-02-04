@@ -4,91 +4,23 @@
       <h3>新品推荐</h3>
     </div>
     <div class="mSearch__new__lists">
-      <div class="mSearch__new__list">
+      <div class="mSearch__new__list" v-for="(item,index) in productNewRecommends" :key="index">
         <a href>
-          <img
-            src="http://gallery.youxiake.com/Public/Data/upload/productimg/201912/16/5df6e977b78b6.jpg?imageslim"
-          />
+          <img :src="item.img"/>
           <div class="mSearch__new__tag">
-            跟团游
+            {{item.productType}}
             <span></span>
-            杭州/扬州出发
+            {{item.place_label}}
           </div>
-          <h3>[轻奢·扬州]2-6人VIP精品小团，寻迹江南四大名城之一的扬州，住进古式青砖墙行馆，穿越时空般在这座中式城堡里体验古淮扬度假风</h3>
+          <h3>{{item.name}}</h3>
           <div class="mSearch__new__price">
             <div class="price">
               <span>
                 ￥
-                <em>880</em>
+                <em>{{item.price}}</em>
               </span>起
             </div>
-            <div class="day">2天1晚</div>
-          </div>
-        </a>
-      </div>
-      <div class="mSearch__new__list">
-        <a href>
-          <img
-            src="http://gallery.youxiake.com/Public/Data/upload/productimg/201912/16/5df6e977b78b6.jpg?imageslim"
-          />
-          <div class="mSearch__new__tag">
-            跟团游
-            <span></span>
-            杭州/扬州出发
-          </div>
-          <h3>[轻奢·扬州]2-6人VIP精品小团，寻迹江南四大名城之一的扬州，住进古式青砖墙行馆，穿越时空般在这座中式城堡里体验古淮扬度假风</h3>
-          <div class="mSearch__new__price">
-            <div class="price">
-              <span>
-                ￥
-                <em>880</em>
-              </span>起
-            </div>
-            <div class="day">2天1晚</div>
-          </div>
-        </a>
-      </div>
-      <div class="mSearch__new__list">
-        <a href>
-          <img
-            src="http://gallery.youxiake.com/Public/Data/upload/productimg/201912/16/5df6e977b78b6.jpg?imageslim"
-          />
-          <div class="mSearch__new__tag">
-            跟团游
-            <span></span>
-            杭州/扬州出发
-          </div>
-          <h3>[轻奢·扬州]2-6人VIP精品小团，寻迹江南四大名城之一的扬州，住进古式青砖墙行馆，穿越时空般在这座中式城堡里体验古淮扬度假风</h3>
-          <div class="mSearch__new__price">
-            <div class="price">
-              <span>
-                ￥
-                <em>880</em>
-              </span>起
-            </div>
-            <div class="day">2天1晚</div>
-          </div>
-        </a>
-      </div>
-      <div class="mSearch__new__list">
-        <a href>
-          <img
-            src="http://gallery.youxiake.com/Public/Data/upload/productimg/201912/16/5df6e977b78b6.jpg?imageslim"
-          />
-          <div class="mSearch__new__tag">
-            跟团游
-            <span></span>
-            杭州/扬州出发
-          </div>
-          <h3>[轻奢·扬州]2-6人VIP精品小团，寻迹江南四大名城之一的扬州，住进古式青砖墙行馆，穿越时空般在这座中式城堡里体验古淮扬度假风</h3>
-          <div class="mSearch__new__price">
-            <div class="price">
-              <span>
-                ￥
-                <em>880</em>
-              </span>起
-            </div>
-            <div class="day">2天1晚</div>
+            <div class="day">{{item.days}}</div>
           </div>
         </a>
       </div>
@@ -97,7 +29,20 @@
 </template>
 
 <script>
-export default {};
+import { getSearchData } from "api/search.js";
+export default {
+  data() {
+    return {
+      productNewRecommends: []
+    };
+  },
+  mounted() {
+    getSearchData().then(res => {
+      this.productNewRecommends = res.data.productNewRecommends;
+      console.log(this.productNewRecommends)
+    });
+  }
+};
 </script>
 
 <style lang="less" scoped>

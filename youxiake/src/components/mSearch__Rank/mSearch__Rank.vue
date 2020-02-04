@@ -4,60 +4,11 @@
       <h3>搜索排行</h3>
     </div>
     <div class="mSearch__Rank__lists">
-      <div class="mSearch__Rank__list">
+      <div class="mSearch__Rank__list" v-for="(item,index) in hotSerach" :key="index">
         <a href>
-          <span class="index">1</span>
-          <span class="tit">武功山</span>
-          <span class="hot"></span>
-        </a>
-      </div>
-      <div class="mSearch__Rank__list">
-        <a href>
-          <span class="index">1</span>
-          <span class="tit">武功山</span>
-          <span class="hot"></span>
-        </a>
-      </div>
-      <div class="mSearch__Rank__list">
-        <a href>
-          <span class="index">1</span>
-          <span class="tit">武功山</span>
-          <span class="hot"></span>
-        </a>
-      </div>
-      <div class="mSearch__Rank__list">
-        <a href>
-          <span class="index">1</span>
-          <span class="tit">武功山</span>
-          <span class="hot"></span>
-        </a>
-      </div>
-      <div class="mSearch__Rank__list">
-        <a href>
-          <span class="index">1</span>
-          <span class="tit">武功山</span>
-          <span class="hot"></span>
-        </a>
-      </div>
-      <div class="mSearch__Rank__list">
-        <a href>
-          <span class="index">1</span>
-          <span class="tit">武功山</span>
-          <span class="hot"></span>
-        </a>
-      </div>
-      <div class="mSearch__Rank__list">
-        <a href>
-          <span class="index">1</span>
-          <span class="tit">武功山</span>
-          <span class="hot"></span>
-        </a>
-      </div>
-      <div class="mSearch__Rank__list">
-        <a href>
-          <span class="index">1</span>
-          <span class="tit">武功山</span>
-          <span class="hot"></span>
+          <span class="index">{{index+1}}</span>
+          <span class="tit">{{item.title}}</span>
+          <span class="hot" v-if="index<3"></span>
         </a>
       </div>
     </div>
@@ -65,7 +16,20 @@
 </template>
 
 <script>
-export default {};
+import { getSearchData } from "api/search.js";
+export default {
+  data() {
+    return {
+        hotSerach:[]
+    };
+  },
+  mounted() {
+      getSearchData().then(res=>{
+          this.hotSerach = res.data.hotSerach
+          console.log(this.hotSerach)
+      })
+  }
+};
 </script>
 
 

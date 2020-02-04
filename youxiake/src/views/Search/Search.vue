@@ -22,13 +22,65 @@
       <div class="mSearch__Recommend__title">
         <h3>搜索推荐</h3>
       </div>
-      
+      <div class="xs-container">
+        <div class="mSearch__Recommend__items">
+          <div class="mSearch__Recommend__item">
+            <a href>
+              <img
+                src="https://qimg4.youxiake.com/upload/202001/22/15301579675677.jpg?imageMogr2/auto-orient/thumbnail/!235x134r/strip/gravity/Center/crop/!235x134/quality/90"
+              />
+              <h2>春节游北京</h2>
+              <span>紫荆城中过大年</span>
+            </a>
+          </div>
+          <div class="mSearch__Recommend__item">
+            <a href>
+              <img
+                src="https://qimg4.youxiake.com/upload/202001/22/15301579675677.jpg?imageMogr2/auto-orient/thumbnail/!235x134r/strip/gravity/Center/crop/!235x134/quality/90"
+              />
+              <h2>春节游北京</h2>
+              <span>紫荆城中过大年</span>
+            </a>
+          </div>
+          <div class="mSearch__Recommend__item">
+            <a href>
+              <img
+                src="https://qimg4.youxiake.com/upload/202001/22/15301579675677.jpg?imageMogr2/auto-orient/thumbnail/!235x134r/strip/gravity/Center/crop/!235x134/quality/90"
+              />
+              <h2>春节游北京</h2>
+              <span>紫荆城中过大年</span>
+            </a>
+          </div>
+          <div class="mSearch__Recommend__item">
+            <a href>
+              <img
+                src="https://qimg4.youxiake.com/upload/202001/22/15301579675677.jpg?imageMogr2/auto-orient/thumbnail/!235x134r/strip/gravity/Center/crop/!235x134/quality/90"
+              />
+              <h2>春节游北京</h2>
+              <span>紫荆城中过大年</span>
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
+    <MSearchRank></MSearchRank>
+    <div class="mSearch__more">
+      <span>没有你想要的？</span>
+      <a href class="mSearch__more__mdd">
+        目的地大全
+        <i class="iconfont">&#xe872;</i>
+      </a>
+    </div>
+    <MSearch__new></MSearch__new>
   </div>
 </template>
 
 <script>
+import MSearchRank from "components/mSearch__Rank/mSearch__Rank.vue";
+import MSearch__new from "components/mSearch__new/mSearch__new.vue";
+
 export default {
+  components: { MSearchRank, MSearch__new },
   data() {
     return {
       searchValue: ""
@@ -142,44 +194,73 @@ export default {
         font-weight: 400;
       }
     }
-    .scroll__H__view {
-      .xs-container {
-          .mSearch__Recommend__items{
-              .mtop(12.5);
-              display: inline-flex;
-              .mSearch__Recommend__item{
-                  .w(117.5);
-                  .h(108);
-                  .mright(10);
-                  img{
-                      .w(117.5);
-                      .h(67);
-                        border-radius: 4px;
-                        background: #fffae5;
-                        overflow: hidden;
-                  }
-                  h2{
-                      font-size: 14px;
-                    color: #333;
-                    text-overflow: ellipsis;
-                    overflow: hidden;
-                    white-space: nowrap;
-                    .mtop(1.5);
-                    .h(18.5);
-                    .lh(18.5);
-                  }
-                  span{
-                      font-size: 12px;
-                    color: #999;
-                    text-overflow: ellipsis;
-                    overflow: hidden;
-                    white-space: nowrap;
-                    display: block;
-                    .h(15.5);
-                    .lh(15.5);
-                  }
-              }
+    .xs-container {
+      .mSearch__Recommend__items::-webkit-scrollbar {
+        display: none;
+      }
+      .mSearch__Recommend__items {
+        .mtop(12.5);
+        overflow: scroll;
+        white-space: nowrap;
+        .mSearch__Recommend__item {
+          .w(117.5);
+          .h(108);
+          .mright(10);
+          display: inline-block;
+          img {
+            .w(117.5);
+            .h(67);
+            border-radius: 4px;
+            background: #fffae5;
+            overflow: hidden;
           }
+          h2 {
+            font-size: 14px;
+            color: #333;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            .mtop(1.5);
+            .h(18.5);
+            .lh(18.5);
+          }
+          span {
+            font-size: 12px;
+            color: #999;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            display: block;
+            .h(15.5);
+            .lh(15.5);
+          }
+        }
+      }
+    }
+  }
+  .mSearch__more {
+    display: flex;
+    align-items: center;
+    margin: 15px 15px 0;
+    .pbottom(15);
+    border-bottom: 0.5px solid #eee;
+    color: #999;
+    font-size: 14px;
+    .mSearch__more__mdd {
+      .w(198.5);
+      .h(30);
+      background: #fffae5;
+      border-radius: 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #333;
+      .mleft(16.5);
+      i {
+        .mleft(6.5);
+        .mtop(2.5);
+        font-size: 12px;
+        font-weight: 800;
       }
     }
   }

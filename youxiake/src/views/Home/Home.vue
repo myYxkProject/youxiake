@@ -8,7 +8,13 @@
     <MIndexWeekAndLocal :wl="weekLocal"></MIndexWeekAndLocal>
     <MIndexMuster :aB="activityBanner" :sP="saleProductList" :nP="newProduct" :kP="kingProduct"></MIndexMuster>
     <MIndexMinority :m="minority"></MIndexMinority>
-    <MIndexWaterfall :fT="flowTabList" :fR="flowRecommend" @changePage="toshow" :type="type"></MIndexWaterfall>
+    <MIndexWaterfall
+      :fT="flowTabList"
+      :fR="flowRecommend"
+      @changePage="toshow"
+      :type="type"
+      :ld="loading"
+    ></MIndexWaterfall>
   </div>
 </template>
 
@@ -49,7 +55,10 @@ export default {
       flowTabList: [],
       flowRecommend: [],
       type: 1,
-      page: 1
+      page: 1,
+      cH: 0,
+      totalPage: 0,
+      loading: true
     };
   },
   created() {
@@ -71,6 +80,9 @@ export default {
       // console.log(this.activityBanner);
     });
     console.log(this.page);
+    this.$nextTick(function() {
+      window.addEventListener("scroll", this.onScroll);
+    });
     // getFlowRecommend(this.type, this.page).then(res => {
     //   // console.log(res)
     //   console.log(this.page);
@@ -83,8 +95,12 @@ export default {
       // console.log(res)
       console.log(this.type);
       this.flowRecommend = res.data.data.list;
-      console.log(this.flowRecommend);
+      this.totalPage = res.data.data.totalPage;
+      console.log(this.totalPage);
+      // console.log(this.flowRecommend);
     });
+    this.cH = this.getClientHeight();
+    // console.log(this.cH);
   },
   methods: {
     toshow(type) {
@@ -96,6 +112,48 @@ export default {
         this.flowRecommend = res.data.data.list;
         console.log(this.flowRecommend);
       });
+    },
+    // 获取滚动条当前位置
+    getScrollTop() {
+      let scrollTop = 0;
+      if (document.documentElement && document.documentElement.scrollTop) {
+        scrollTop = Math.floor(document.documentElement.scrollTop);
+      } else if (document.body) {
+        scrollTop = Math.floor(document.body.scrollTop);
+      }
+      return scrollTop;
+    },
+    // 获取当前可视范围的高度
+    getClientHeight() {
+      let clientHeight = 0;
+      if (document.body.clientHeight && document.documentElement.clientHeight) {
+        clientHeight = Math.min(
+          document.body.clientHeight,
+          document.documentElement.clientHeight
+        );
+      } else {
+        clientHeight = Math.max(
+          document.body.clientHeight,
+          document.documentElement.clientHeight
+        );
+      }
+      return clientHeight;
+    },
+    // 滚动事件触发下拉加载
+    onScroll() {
+      if (this.cH - this.getScrollTop() <= 10) {
+        this.loading = false;
+        if (this.page < this.totalPage) {
+          this.page++;
+          // this.loading = true;
+          this.cH += this.getClientHeight();
+          getFlowRecommend(this.type, this.page).then(res => {
+            this.flowRecommend = this.flowRecommend.concat(res.data.data.list);
+          });
+        } else {
+          this.loading = false;
+        }
+      }
     }
   }
 };

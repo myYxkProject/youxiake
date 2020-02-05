@@ -104,6 +104,7 @@
         </a>
       </div>
     </div>
+    <el-table v-loading="loading" style="width: 100%"></el-table>
   </div>
 </template>
 
@@ -111,7 +112,8 @@
 export default {
   props: {
     fT: { default: () => [], type: Array },
-    fR: { default: () => [], type: Array }
+    fR: { default: () => [], type: Array },
+    ld: { default: false, type: Boolean }
   },
   data() {
     return {
@@ -123,7 +125,8 @@ export default {
       flowRecommendright: [],
       currentSort: 0,
       wTop: false,
-      type:1
+      type: 1,
+      loading: this.ld
     };
   },
   watch: {
@@ -168,7 +171,7 @@ export default {
     }
   },
   created() {
-    // console.log(this);
+    console.log(this.load);
     this.flowRecommend = this.fR;
     this.flowRecommendtopl = this.flowRecommend[0].dataDetail;
     this.flowRecommendtopr = this.flowRecommend[1].dataDetail;
@@ -196,9 +199,9 @@ export default {
     toggle(index) {
       this.currentSort = index;
       console.log(index);
-      console.log(this.flowTabList[index].type)
-      this.type = this.flowTabList[index].type
-      this.$emit("changePage",this.type);
+      console.log(this.flowTabList[index].type);
+      this.type = this.flowTabList[index].type;
+      this.$emit("changePage", this.type);
     },
     handleScroll() {
       var top = Math.floor(
@@ -230,7 +233,7 @@ export default {
       .h(39); // 也可以不设置高度，让高度自适应内容的变化
       overflow: hidden;
       .lh(39);
-      .nav__list::-webkit-scrollbar{
+      .nav__list::-webkit-scrollbar {
         display: none;
       }
       .nav__list {

@@ -24,8 +24,6 @@
           </div>
         </a>
       </div>
-
-      <div class="dataend" v-show="dataEnd">没有更多了</div>
     </div>
     <el-table v-loading="loading" style="width:100%"></el-table>
   </div>
@@ -39,7 +37,6 @@ export default {
       productNewRecommends: [],
       page: 1,
       cH: 667,
-      dataEnd: false,
       loading: true
     };
   },
@@ -96,7 +93,7 @@ export default {
             );
           });
         } else {
-          this.dataEnd = true;
+          this.loading = false;
         }
       }
     }

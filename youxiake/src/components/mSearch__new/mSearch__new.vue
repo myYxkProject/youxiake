@@ -24,7 +24,10 @@
           </div>
         </a>
       </div>
+
+      <div class="dataend" v-show="dataEnd">没有更多了</div>
     </div>
+    <el-table v-loading="loading" style="width:100%"></el-table>
   </div>
 </template>
 
@@ -35,7 +38,9 @@ export default {
     return {
       productNewRecommends: [],
       page: 1,
-      cH:667
+      cH: 667,
+      dataEnd: false,
+      loading: true
     };
   },
   methods: {
@@ -80,18 +85,18 @@ export default {
       console.log(this.cH - this.getScrollTop());
       console.log(this.cH);
       if (this.cH - this.getScrollTop() <= 10) {
-        if (this.page < 7) {
+        if (this.page < 5) {
           this.page++;
           console.log(this.page);
           this.cH += 667;
-          console.log(this.cH)
+          console.log(this.cH);
           getSearchData(this.page).then(res => {
             this.productNewRecommends = this.productNewRecommends.concat(
               res.data.productNewRecommends
             );
           });
         } else {
-          alert("没有更多了");
+          this.dataEnd = true;
         }
       }
     }
@@ -192,6 +197,15 @@ export default {
           }
         }
       }
+    }
+    .dataend {
+      width: 100%;
+      .h(30);
+      .lh(30);
+      font-size: 20px;
+      color: #999;
+      text-align: center;
+      background-color: #eee;
     }
   }
 }
